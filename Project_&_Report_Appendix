@@ -1,0 +1,90 @@
+APPENDIX A
+Citations:
+UCI German Credit Dataset & Hofmann (1994): “UCI Machine Learning Repository.” Uci.edu, 2019, archive.ics.uci.edu/dataset/144/statlog+german+credit+data. Accessed 6 Apr. 2026. 
+Mehrabi et al. (2021): Mehrabi, Ninareh, et al. “A Survey on Bias and Fairness in Machine Learning.” ACM Computing Surveys, vol. 54, no. 6, 13 July 2021, pp. 1–35, dl.acm.org/doi/10.1145/3457607, https://doi.org/10.1145/3457607. Accessed 6 Apr. 2026.
+Dua and Graff (2019): Dua, D. and Graff, C. (2019) UCI Machine Learning Repository. University of California, School of Information and Computer Science, Irvine, CA.
+http://archive.ics.uci.edu/ml. Accessed 1 Apr. 2026 
+EU AI Act: “Artificial Intelligence Act: MEPs Adopt Landmark Law | News | European Parliament.” Europa.eu, 13 Mar. 2024, www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law. Accessed 6 Apr. 2026.
+
+Figure 1: “Best LLM for Coding - Vellum.” Vellum, 2026, vellum.ai/best-llm-for-coding. Accessed 1 Apr. 2026.
+Figure 2: AI Output
+Figure 3: AI Output
+Figure 4: AI Output
+Figure 5: AI Output
+
+AI agent used: “Claude.” Claude, 2026, claude.ai/new. Accessed 1 Apr. 2026.
+
+APPENDIX B
+
+Prompt 1: I am working on a machine learning task using the UCI Statlog German Credit dataset (1,000 instances, 20 features), the goal of this exploration is to be able to predict the creditworthiness (good risk vs. bad risk) as a binary classification problem.
+Please generate Python code using pandas, NumPy, and scikit-learn that is able to:
+•⁠  ⁠Load and preprocesses the dataset and is also handling both the categorical and numerical variables in an appropriate manner. Handle categorical data and numerical variables (encoding where it might be necessary)
+•⁠  ⁠Is able to split the datasets into 2 sets, training and testing set
+•⁠  ⁠Train a Logistic Regression classifier as a baseline model
+•⁠  ⁠Evaluates the model using appropriate metrics (accuracy, confusion matrix), and also output the predicted probabilities for all the classes present.
+•⁠  ⁠Displays the results clearly
+Keep the code well-structured while giving brief comments explaining each step along the code.
+
+Prompt 2: 
+You are an expert at machine learning engineering at understand it well. You need to improve the existing German Credit classification code by being able to fix the core preprocessing and evaluation issues that had occurred whilst keeping the model simplistic
+
+CONTEXT:
+Dataset to be used: UCI German Credit Dataset (binary classification)
+Target: 1 = Good Risk, 0 = Bad Risk
+The dataset may also contain class imbalance, but you don’t need to introduce any advanced modelling as of now.
+1. PREPROCESSING (CRITICAL)
+You need to replace the Label Encoding with one Hot encoding for categorical features.
+You also need to use Column Transformer to be able to correctly handle:
+ Numerical features to be standardised by using Standard Scaler while the Categorical features are to be encoded using one hot encoder (handle_unknown='ignore').
+Also ensure that scaling is only applied to the numerical features. 
+Ensure that all of the preprocessing is happening within a Pipeline so that the transformations are learned only from the training data. 
+Ensure that the preprocessing is occurring inside each of the cross-validation fold to be able to prevent data leakage and ensure we get a realistic evaluation. 
+2. MODEL
+For the model you only need to use Logisitc regression the baseline model we used. 
+Use solver=('liblinear') or if you want ('lbfgs') where you think might be appropriate. 
+Keep the model simplistic no need to add any class_weight for the time. 
+3. EVALUATION IMPROVEMENTS
+You need to use Stratified K-Fold Cross-Validation with k=5, shuffle=True, and a random_state=42. 
+Evaluate using:
+ Accuracy, confusion matrix, f1-score, ROC-AUC, include a classification report (precision, recall, F1-score per class). 
+4. OUTPUT
+You should clearly print the evaluation results for each of the fold and  the overall averages while maintaining the predicted probabilities output and ensuring code is modular, clean, and well-commented.
+Set the random_state=42 where applicable to ensure that the method is reproducible. 
+IMPORTANT:
+Do not include multiple models, Don’t include any threshold tuning, and only focus on fixing correctness, data leakage, and evaluation robustness
+
+Prompt 3: 
+You are an expert at machine learning engineering at understand it well. You need to improve the existing German Credit classification code by being able to fix the core preprocessing and evaluation issues that had occurred. The credit risk prediction system should be evaluated properly using the German credit dataset, while incorporating cost-sensitive learning and model comparison. 
+CONTEXT:
+Binary classification: Good Risk (1) vs Bad Risk (0)
+False Negatives (predicting good when actually bad) are significantly more costly hence recall for the bad risk class is critical. 
+REQUIREMENTS:
+1. DATA UNDERSTANDING, display  the class distribution before going to training to highlight class imbalance
+2. PREPROCESSING 
+Use column transformer:
+Numerical features to be standardised by using Standard Scaler while the Categorical features are to be encoded using one hot encoder (handle_unknown='ignore').
+Use a Pipeline to ensure all preprocessing occurs within cross-validation folds and prevents data leakage
+3. MODELS 
+Train and evaluate:
+Logistic Regression with  the class_weight = 'balanced', and the random_state=42
+Random forest classifier with simple tuning such as max_depth, and the random_state=42
+Gradient boosting classifier using scikit-learn, with controlled parameters
+OPTIONAL:
+ XGBoost only if included, ensure it is properly justified as to why its being used.
+4. HYPERPARAMETER CONTROL (IMPORTANT)
+Apply simple but justified tuning for an example you can use Grid Search CV or you can use predefined parameters such as max_depth for tree-based models
+- Use cross-validation within tuning while avoiding overfitting while improving performance.
+5. EVALUATION (COST-SENSITIVE)
+Use Stratified K-Fold Cross-Validation with k=5, shuffle=True, and the random_state=42
+Evaluate each of the models using: Recall (Bad Risk class specifically), Precision (Bad Risk class), F1-score, ROC-AUC and a Classification report. 
+6. THRESHOLD TUNING
+Use the predicted probabilities that you get from Logistic Regression.
+Then you evaluate at different thresholds: 0.5, 0.4, 0.3
+Show the impact it has on:
+  Recall (Bad Risk), Precision (Bad Risk), False Negatives and False Positives. 
+7. VISUALISATION
+Plot the ROC curves for all models, then display the confusion matrices
+8. OUTPUT
+Clearly compare all  the models we get in a structured tabular format, Include the mean cross-validation scores and ensure that the code is modular and well-commented while setting the random_state=42 where applicable for reproducibility
+IMPORTANT:
+Focus on improving recall for Bad Risk class while clearly demonstrating precision-recall trade-offs when tuning thresholds
