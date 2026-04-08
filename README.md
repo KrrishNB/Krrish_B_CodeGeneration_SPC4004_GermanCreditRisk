@@ -8,6 +8,6 @@ Main_Generated_Sonnet_Code.py → Final version of the model
 Project_&_Report_Appendix → Detailed methodology and prompts
 
 
-Please see the commits made to the Main file to see the Iteration
+Please see the commits made to the Main file to see the Iteration and the changes present in the generated Code
 
 Appendix also availabile, it has the citations for the report and also the prompts used
